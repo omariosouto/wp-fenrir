@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/footer/index.styl"],"names":[],"mappings":"AACA,GACC,iBAAiB,KACjB,MAAM","file":"index.min.css","sourcesContent":["/* FOOTER STYLE */\r\nh1\r\n\tbackground-color red\r\n\tcolor white"]}

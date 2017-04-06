@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		<script src="https://rawgit.com/jonathantneal/svg4everybody/master/dist/svg4everybody.js"></script>
+		<script>svg4everybody();</script>
+		<title>SVG &lt;symbol&gt; sprite preview | svg-sprite</title>
+		<style>@charset "UTF-8";body{padding:0;margin:0;color:#666;background:#fafafa;font-family:Arial,Helvetica,sans-serif;font-size:1em;line-height:1.4}header{display:block;padding:3em 3em 2em 3em;background-color:#fff}header p{margin:2em 0 0 0}section{border-top:1px solid #eee;padding:2em 3em 0 3em}section ul{margin:0;padding:0}section li{display:inline;display:inline-block;background-color:#fff;position:relative;margin:0 2em 2em 0;vertical-align:top;border:1px solid #ccc;padding:1em 1em 3em 1em;cursor:default}.icon-box{margin:0;width:144px;height:144px;position:relative;background:#ccc url("data:image/gif;base64,R0lGODlhDAAMAIAAAMzMzP///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozQjk4OTI0MUY5NTIxMUUyQkJDMEI5NEFEM0Y1QTYwQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozQjk4OTI0MkY5NTIxMUUyQkJDMEI5NEFEM0Y1QTYwQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjNCOTg5MjNGRjk1MjExRTJCQkMwQjk0QUQzRjVBNjBDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjNCOTg5MjQwRjk1MjExRTJCQkMwQjk0QUQzRjVBNjBDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAAAAAAAsAAAAAAwADAAAAhaEH6mHmmzcgzJAUG/NVGrfOZ8YLlABADs=") top left repeat;border:1px solid #ccc;display:table-cell;vertical-align:middle;text-align:center}.icon{display:inline;display:inline-block}h1{margin-top:0}h2{margin:0;padding:0;font-size:1em;font-weight:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:absolute;left:1em;right:1em;bottom:1em}footer{display:block;margin:0;padding:0 3em 3em 3em}footer p{margin:0;font-size:.7em}footer a{color:#0f7595;margin-left:0}</style>
+		
+<!--
+	
+Sprite shape dimensions
+====================================================================================================
+You will need to set the sprite shape dimensions via CSS when you use them as inline SVG, otherwise
+they would become a huge 100% in size. You may use the following dimension classes for doing so.
+They might well be outsourced to an external stylesheet of course.
+
+-->
+
+<style type="text/css">
+	.svg-icon_cast-dims { width: 48px; height: 48px; }
+	.svg-icon_close-dims { width: 48px; height: 48px; }
+	.svg-icon_config-dims { width: 48px; height: 48px; }
+	.svg-icon_data-dims { width: 48px; height: 48px; }
+	.svg-icon_draw-dims { width: 48px; height: 48px; }
+	.svg-icon_drop_down-dims { width: 48px; height: 48px; }
+	.svg-icon_drop_up-dims { width: 48px; height: 48px; }
+	.svg-icon_fullscreen-dims { width: 48px; height: 48px; }
+	.svg-icon_keydown-dims { width: 48px; height: 48px; }
+	.svg-icon_keyleft-dims { width: 48px; height: 48px; }
+	.svg-icon_keyright-dims { width: 48px; height: 48px; }
+	.svg-icon_keyup-dims { width: 48px; height: 48px; }
+	.svg-icon_menu_horz-dims { width: 48px; height: 48px; }
+	.svg-icon_menu_vert-dims { width: 48px; height: 48px; }
+	.svg-icon_money-dims { width: 48px; height: 48px; }
+	.svg-icon_notification-dims { width: 48px; height: 48px; }
+	.svg-icon_school-dims { width: 48px; height: 48px; }
+	.svg-icon_send-dims { width: 48px; height: 48px; }
+	.svg-icon_share-dims { width: 48px; height: 48px; }
+	.svg-icon_star-dims { width: 48px; height: 48px; }
+	.svg-icon_start_empty-dims { width: 48px; height: 48px; }
+	.svg-icon_storm-dims { width: 325.6px; height: 325.6px; }
+	.svg-icon_sun-dims { width: 48px; height: 48px; }
+	.svg-logo_mario-dims { width: 206.6px; height: 206.6px; }
+	.svg-menu_icon_comment-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_dashboard-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_media-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_page-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_paint-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_people-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_posts-dims { width: 48px; height: 48px; }
+	.svg-menu_icon_tools-dims { width: 48px; height: 48px; }
+</style>
+<!--
+====================================================================================================
+-->
+
+	</head>
+	<body>
+	
+<!--
+	
+Inline <symbol> SVG sprite
+====================================================================================================
+This is an inlined version of the generated SVG sprite. The single images may be <use>d everywhere
+below within this document. Please see
+
+	https://github.com/jkphl/svg-sprite/blob/master/docs/configuration.md#defs--symbol-mode
+
+for further details on how to create this embeddable sprite variant.
+
+-->
+
+<svg width="0" height="0" style="position:absolute">
+		<symbol viewBox="0 0 24 24" id="icon_cast"><path d="M0 0h24v24H0z" fill="none" opacity=".1"/><path d="M0 0h24v24H0z" fill="none"/><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2a9 9 0 0 1 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_close"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_config"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0 0 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_data"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_draw"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_drop_down"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_drop_up"><path d="M7 14l5-5 5 5z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_fullscreen"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_keydown"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/><path d="M0-.75h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_keyleft"><path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"/><path d="M0-.5h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_keyright"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_keyup"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_menu_horz"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_menu_vert"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_money"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_notification"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_school"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_send"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_share"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_star"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_start_empty"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 325.6 325.6" id="icon_storm"><path class="avcloud" d="M213.8 223.6h45.8c36.4 0 66-29.6 66-66 0-19.8-8.6-38.1-23.8-50.7.5-3.9.8-7.5.8-11.1 0-49.1-40-89.1-89.1-89.1-29.4 0-57 14.8-73.5 38.9-8.3-4.3-17.5-6.5-26.9-6.5-30.5 0-55.6 23.4-58.5 53.3C23.1 97.9 0 125 0 157.6c0 36.4 29.6 66 66.1 66h62.2m131.3-12.8H66.1c-29.3 0-53.2-23.9-53.2-53.2 0-27.8 20.9-50.5 48.5-52.9l5.9-.8V98c0-25.3 20.6-45.9 45.9-45.9 9.1 0 17.9 2.7 25.4 7.7l5.7 3.8 3.4-5.9c13.6-23.4 38.9-38 65.9-38 42 0 76.2 34.2 76.2 76.2 0 4-.4 8.1-1.2 12.7l-.7 3.9 3.2 2.3c13.8 10.2 21.7 25.7 21.7 42.7 0 29.4-23.9 53.3-53.2 53.3z" fill="#E0E0E0"/><path class="avthunder" fill="#FBC02D" d="M185.8 228.6H140l-20.1 38.3h40.8l-26.8 57 75.9-71.2-40.6.1"/></symbol>
+		<symbol viewBox="0 0 24 24" id="icon_sun"><path d="M0 0h24v24H0z" fill="none"/><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></symbol>
+		<symbol viewBox="0 0 206.6 206.6" id="logo_mario"><linearGradient id="axa" gradientUnits="userSpaceOnUse" x1="67.27" y1="189.52" x2="70.688" y2="192.938" gradientTransform="matrix(1 0 0 -1 0 291.8)"><stop offset="0" stop-color="#FFF"/><stop offset="1" stop-color="#323232"/></linearGradient><path fill="url(#axa)" d="M83.1 132.3H61.8V61.9l21.3 21.4"/><path d="M103.3 0C46.3 0 0 46.3 0 103.3s46.3 103.3 103.3 103.3 103.3-46.3 103.3-103.3S160.4 0 103.3 0zm0 197.6c-52 0-94.3-42.3-94.3-94.3S51.3 9 103.3 9s94.3 42.3 94.3 94.3-42.3 94.3-94.3 94.3z" fill="#FFF"/><path fill="#FFF" d="M123.5 132.3h21.4V60.7L123.5 82m-61.7 8.7l41.7 41.7 15.1-15.1-56.8-56.6"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_comment"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_dashboard"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_media"><path d="M0 0h24v24H0z" fill="none"/><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_page"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_paint"><path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z"/><path d="M0 0h24v24H0z" fill="none"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_people"><path d="M0 0h24v24H0z" fill="none"/><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_posts"><path d="M0 0h24v24H0z" fill="none"/><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></symbol>
+		<symbol viewBox="0 0 24 24" id="menu_icon_tools"><path clip-rule="evenodd" d="M0 0h24v24H0z" fill="none"/><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></symbol>
+</svg>
+
+<!--
+====================================================================================================
+-->
+		
+		<header>
+			<h1>SVG <code>&lt;symbol&gt;</code> sprite preview</h1>
+			<p>This preview features two methods of using the generated sprite in conjunction with inline SVG. Please have a look at the HTML source for further details and be aware of the following constraints:</p>
+			<ul>
+				<li>Your browser has to <a href="http://caniuse.com/#feat=svg-html5" target="_blank">support inline SVG</a> for these techniques to work.</li>
+				<li>The embedded sprite (A) slightly differs from the generated external one. Please <a href="https://github.com/jkphl/svg-sprite/blob/master/docs/configuration.md#defs--symbol-mode" target="_blank">see the documentation</a> for details on how to create such an embeddable sprite.</li>
+				<li>Internet Explorer up to version 11 doesn't support external sprites for use with inline SVG. For IE 9-11, you may polyfill this functionality with <a href="https://github.com/jonathantneal/svg4everybody" target="_blank">SVG for Everybody</a>.</li>
+			</ul>
+		</header>
+		<section>
+
+<!--
+	
+A) Inline SVG with embedded sprite
+====================================================================================================
+These SVG images make use of fragment identifiers (IDs) and are extracted out of the inline sprite
+embedded above. They may be styled via CSS.
+
+-->
+
+			<h3>A) Inline SVG with embedded sprite</h3>
+			<ul>
+
+				<li title="icon_cast">
+					<div class="icon-box">
+						
+						<!-- icon_cast -->
+						<svg class="svg-icon_cast-dims">
+							<use xlink:href="#icon_cast"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_cast</h2>
+				</li>
+				<li title="icon_close">
+					<div class="icon-box">
+						
+						<!-- icon_close -->
+						<svg class="svg-icon_close-dims">
+							<use xlink:href="#icon_close"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_close</h2>
+				</li>
+				<li title="icon_config">
+					<div class="icon-box">
+						
+						<!-- icon_config -->
+						<svg class="svg-icon_config-dims">
+							<use xlink:href="#icon_config"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_config</h2>
+				</li>
+				<li title="icon_data">
+					<div class="icon-box">
+						
+						<!-- icon_data -->
+						<svg class="svg-icon_data-dims">
+							<use xlink:href="#icon_data"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_data</h2>
+				</li>
+				<li title="icon_draw">
+					<div class="icon-box">
+						
+						<!-- icon_draw -->
+						<svg class="svg-icon_draw-dims">
+							<use xlink:href="#icon_draw"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_draw</h2>
+				</li>
+				<li title="icon_drop_down">
+					<div class="icon-box">
+						
+						<!-- icon_drop_down -->
+						<svg class="svg-icon_drop_down-dims">
+							<use xlink:href="#icon_drop_down"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_drop_down</h2>
+				</li>
+				<li title="icon_drop_up">
+					<div class="icon-box">
+						
+						<!-- icon_drop_up -->
+						<svg class="svg-icon_drop_up-dims">
+							<use xlink:href="#icon_drop_up"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_drop_up</h2>
+				</li>
+				<li title="icon_fullscreen">
+					<div class="icon-box">
+						
+						<!-- icon_fullscreen -->
+						<svg class="svg-icon_fullscreen-dims">
+							<use xlink:href="#icon_fullscreen"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_fullscreen</h2>
+				</li>
+				<li title="icon_keydown">
+					<div class="icon-box">
+						
+						<!-- icon_keydown -->
+						<svg class="svg-icon_keydown-dims">
+							<use xlink:href="#icon_keydown"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keydown</h2>
+				</li>
+				<li title="icon_keyleft">
+					<div class="icon-box">
+						
+						<!-- icon_keyleft -->
+						<svg class="svg-icon_keyleft-dims">
+							<use xlink:href="#icon_keyleft"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyleft</h2>
+				</li>
+				<li title="icon_keyright">
+					<div class="icon-box">
+						
+						<!-- icon_keyright -->
+						<svg class="svg-icon_keyright-dims">
+							<use xlink:href="#icon_keyright"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyright</h2>
+				</li>
+				<li title="icon_keyup">
+					<div class="icon-box">
+						
+						<!-- icon_keyup -->
+						<svg class="svg-icon_keyup-dims">
+							<use xlink:href="#icon_keyup"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyup</h2>
+				</li>
+				<li title="icon_menu_horz">
+					<div class="icon-box">
+						
+						<!-- icon_menu_horz -->
+						<svg class="svg-icon_menu_horz-dims">
+							<use xlink:href="#icon_menu_horz"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_menu_horz</h2>
+				</li>
+				<li title="icon_menu_vert">
+					<div class="icon-box">
+						
+						<!-- icon_menu_vert -->
+						<svg class="svg-icon_menu_vert-dims">
+							<use xlink:href="#icon_menu_vert"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_menu_vert</h2>
+				</li>
+				<li title="icon_money">
+					<div class="icon-box">
+						
+						<!-- icon_money -->
+						<svg class="svg-icon_money-dims">
+							<use xlink:href="#icon_money"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_money</h2>
+				</li>
+				<li title="icon_notification">
+					<div class="icon-box">
+						
+						<!-- icon_notification -->
+						<svg class="svg-icon_notification-dims">
+							<use xlink:href="#icon_notification"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_notification</h2>
+				</li>
+				<li title="icon_school">
+					<div class="icon-box">
+						
+						<!-- icon_school -->
+						<svg class="svg-icon_school-dims">
+							<use xlink:href="#icon_school"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_school</h2>
+				</li>
+				<li title="icon_send">
+					<div class="icon-box">
+						
+						<!-- icon_send -->
+						<svg class="svg-icon_send-dims">
+							<use xlink:href="#icon_send"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_send</h2>
+				</li>
+				<li title="icon_share">
+					<div class="icon-box">
+						
+						<!-- icon_share -->
+						<svg class="svg-icon_share-dims">
+							<use xlink:href="#icon_share"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_share</h2>
+				</li>
+				<li title="icon_star">
+					<div class="icon-box">
+						
+						<!-- icon_star -->
+						<svg class="svg-icon_star-dims">
+							<use xlink:href="#icon_star"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_star</h2>
+				</li>
+				<li title="icon_start_empty">
+					<div class="icon-box">
+						
+						<!-- icon_start_empty -->
+						<svg class="svg-icon_start_empty-dims">
+							<use xlink:href="#icon_start_empty"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_start_empty</h2>
+				</li>
+				<li title="icon_storm">
+					<div class="icon-box">
+						
+						<!-- icon_storm -->
+						<svg class="svg-icon_storm-dims">
+							<use xlink:href="#icon_storm"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_storm</h2>
+				</li>
+				<li title="icon_sun">
+					<div class="icon-box">
+						
+						<!-- icon_sun -->
+						<svg class="svg-icon_sun-dims">
+							<use xlink:href="#icon_sun"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_sun</h2>
+				</li>
+				<li title="logo_mario">
+					<div class="icon-box">
+						
+						<!-- logo_mario -->
+						<svg class="svg-logo_mario-dims">
+							<use xlink:href="#logo_mario"></use>
+						</svg>
+						
+					</div>
+					<h2>logo_mario</h2>
+				</li>
+				<li title="menu_icon_comment">
+					<div class="icon-box">
+						
+						<!-- menu_icon_comment -->
+						<svg class="svg-menu_icon_comment-dims">
+							<use xlink:href="#menu_icon_comment"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_comment</h2>
+				</li>
+				<li title="menu_icon_dashboard">
+					<div class="icon-box">
+						
+						<!-- menu_icon_dashboard -->
+						<svg class="svg-menu_icon_dashboard-dims">
+							<use xlink:href="#menu_icon_dashboard"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_dashboard</h2>
+				</li>
+				<li title="menu_icon_media">
+					<div class="icon-box">
+						
+						<!-- menu_icon_media -->
+						<svg class="svg-menu_icon_media-dims">
+							<use xlink:href="#menu_icon_media"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_media</h2>
+				</li>
+				<li title="menu_icon_page">
+					<div class="icon-box">
+						
+						<!-- menu_icon_page -->
+						<svg class="svg-menu_icon_page-dims">
+							<use xlink:href="#menu_icon_page"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_page</h2>
+				</li>
+				<li title="menu_icon_paint">
+					<div class="icon-box">
+						
+						<!-- menu_icon_paint -->
+						<svg class="svg-menu_icon_paint-dims">
+							<use xlink:href="#menu_icon_paint"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_paint</h2>
+				</li>
+				<li title="menu_icon_people">
+					<div class="icon-box">
+						
+						<!-- menu_icon_people -->
+						<svg class="svg-menu_icon_people-dims">
+							<use xlink:href="#menu_icon_people"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_people</h2>
+				</li>
+				<li title="menu_icon_posts">
+					<div class="icon-box">
+						
+						<!-- menu_icon_posts -->
+						<svg class="svg-menu_icon_posts-dims">
+							<use xlink:href="#menu_icon_posts"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_posts</h2>
+				</li>
+				<li title="menu_icon_tools">
+					<div class="icon-box">
+						
+						<!-- menu_icon_tools -->
+						<svg class="svg-menu_icon_tools-dims">
+							<use xlink:href="#menu_icon_tools"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_tools</h2>
+				</li>
+			</ul>
+
+<!--
+====================================================================================================
+-->
+
+		</section>
+		<section>
+
+<!--
+	
+B) Inline SVG with external sprite (IE 9-11 with polyfill only)
+====================================================================================================
+These SVG images make use of an URL + fragment identifiers (IDs) and refer to the regular external
+SVG sprite. They may be styled via CSS. (IE 9-11 with polyfill only)
+
+-->
+
+			<h3>B) Inline SVG with external sprite (IE 9-11 with polyfill only)</h3>
+			<ul>
+				
+				<li title="icon_cast">
+					<div class="icon-box">
+						
+						<!-- icon_cast -->
+						<svg class="svg-icon_cast-dims">
+							<use xlink:href="svg_sprite.svg#icon_cast"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_cast</h2>
+				</li>
+				<li title="icon_close">
+					<div class="icon-box">
+						
+						<!-- icon_close -->
+						<svg class="svg-icon_close-dims">
+							<use xlink:href="svg_sprite.svg#icon_close"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_close</h2>
+				</li>
+				<li title="icon_config">
+					<div class="icon-box">
+						
+						<!-- icon_config -->
+						<svg class="svg-icon_config-dims">
+							<use xlink:href="svg_sprite.svg#icon_config"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_config</h2>
+				</li>
+				<li title="icon_data">
+					<div class="icon-box">
+						
+						<!-- icon_data -->
+						<svg class="svg-icon_data-dims">
+							<use xlink:href="svg_sprite.svg#icon_data"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_data</h2>
+				</li>
+				<li title="icon_draw">
+					<div class="icon-box">
+						
+						<!-- icon_draw -->
+						<svg class="svg-icon_draw-dims">
+							<use xlink:href="svg_sprite.svg#icon_draw"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_draw</h2>
+				</li>
+				<li title="icon_drop_down">
+					<div class="icon-box">
+						
+						<!-- icon_drop_down -->
+						<svg class="svg-icon_drop_down-dims">
+							<use xlink:href="svg_sprite.svg#icon_drop_down"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_drop_down</h2>
+				</li>
+				<li title="icon_drop_up">
+					<div class="icon-box">
+						
+						<!-- icon_drop_up -->
+						<svg class="svg-icon_drop_up-dims">
+							<use xlink:href="svg_sprite.svg#icon_drop_up"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_drop_up</h2>
+				</li>
+				<li title="icon_fullscreen">
+					<div class="icon-box">
+						
+						<!-- icon_fullscreen -->
+						<svg class="svg-icon_fullscreen-dims">
+							<use xlink:href="svg_sprite.svg#icon_fullscreen"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_fullscreen</h2>
+				</li>
+				<li title="icon_keydown">
+					<div class="icon-box">
+						
+						<!-- icon_keydown -->
+						<svg class="svg-icon_keydown-dims">
+							<use xlink:href="svg_sprite.svg#icon_keydown"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keydown</h2>
+				</li>
+				<li title="icon_keyleft">
+					<div class="icon-box">
+						
+						<!-- icon_keyleft -->
+						<svg class="svg-icon_keyleft-dims">
+							<use xlink:href="svg_sprite.svg#icon_keyleft"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyleft</h2>
+				</li>
+				<li title="icon_keyright">
+					<div class="icon-box">
+						
+						<!-- icon_keyright -->
+						<svg class="svg-icon_keyright-dims">
+							<use xlink:href="svg_sprite.svg#icon_keyright"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyright</h2>
+				</li>
+				<li title="icon_keyup">
+					<div class="icon-box">
+						
+						<!-- icon_keyup -->
+						<svg class="svg-icon_keyup-dims">
+							<use xlink:href="svg_sprite.svg#icon_keyup"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_keyup</h2>
+				</li>
+				<li title="icon_menu_horz">
+					<div class="icon-box">
+						
+						<!-- icon_menu_horz -->
+						<svg class="svg-icon_menu_horz-dims">
+							<use xlink:href="svg_sprite.svg#icon_menu_horz"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_menu_horz</h2>
+				</li>
+				<li title="icon_menu_vert">
+					<div class="icon-box">
+						
+						<!-- icon_menu_vert -->
+						<svg class="svg-icon_menu_vert-dims">
+							<use xlink:href="svg_sprite.svg#icon_menu_vert"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_menu_vert</h2>
+				</li>
+				<li title="icon_money">
+					<div class="icon-box">
+						
+						<!-- icon_money -->
+						<svg class="svg-icon_money-dims">
+							<use xlink:href="svg_sprite.svg#icon_money"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_money</h2>
+				</li>
+				<li title="icon_notification">
+					<div class="icon-box">
+						
+						<!-- icon_notification -->
+						<svg class="svg-icon_notification-dims">
+							<use xlink:href="svg_sprite.svg#icon_notification"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_notification</h2>
+				</li>
+				<li title="icon_school">
+					<div class="icon-box">
+						
+						<!-- icon_school -->
+						<svg class="svg-icon_school-dims">
+							<use xlink:href="svg_sprite.svg#icon_school"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_school</h2>
+				</li>
+				<li title="icon_send">
+					<div class="icon-box">
+						
+						<!-- icon_send -->
+						<svg class="svg-icon_send-dims">
+							<use xlink:href="svg_sprite.svg#icon_send"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_send</h2>
+				</li>
+				<li title="icon_share">
+					<div class="icon-box">
+						
+						<!-- icon_share -->
+						<svg class="svg-icon_share-dims">
+							<use xlink:href="svg_sprite.svg#icon_share"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_share</h2>
+				</li>
+				<li title="icon_star">
+					<div class="icon-box">
+						
+						<!-- icon_star -->
+						<svg class="svg-icon_star-dims">
+							<use xlink:href="svg_sprite.svg#icon_star"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_star</h2>
+				</li>
+				<li title="icon_start_empty">
+					<div class="icon-box">
+						
+						<!-- icon_start_empty -->
+						<svg class="svg-icon_start_empty-dims">
+							<use xlink:href="svg_sprite.svg#icon_start_empty"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_start_empty</h2>
+				</li>
+				<li title="icon_storm">
+					<div class="icon-box">
+						
+						<!-- icon_storm -->
+						<svg class="svg-icon_storm-dims">
+							<use xlink:href="svg_sprite.svg#icon_storm"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_storm</h2>
+				</li>
+				<li title="icon_sun">
+					<div class="icon-box">
+						
+						<!-- icon_sun -->
+						<svg class="svg-icon_sun-dims">
+							<use xlink:href="svg_sprite.svg#icon_sun"></use>
+						</svg>
+						
+					</div>
+					<h2>icon_sun</h2>
+				</li>
+				<li title="logo_mario">
+					<div class="icon-box">
+						
+						<!-- logo_mario -->
+						<svg class="svg-logo_mario-dims">
+							<use xlink:href="svg_sprite.svg#logo_mario"></use>
+						</svg>
+						
+					</div>
+					<h2>logo_mario</h2>
+				</li>
+				<li title="menu_icon_comment">
+					<div class="icon-box">
+						
+						<!-- menu_icon_comment -->
+						<svg class="svg-menu_icon_comment-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_comment"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_comment</h2>
+				</li>
+				<li title="menu_icon_dashboard">
+					<div class="icon-box">
+						
+						<!-- menu_icon_dashboard -->
+						<svg class="svg-menu_icon_dashboard-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_dashboard"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_dashboard</h2>
+				</li>
+				<li title="menu_icon_media">
+					<div class="icon-box">
+						
+						<!-- menu_icon_media -->
+						<svg class="svg-menu_icon_media-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_media"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_media</h2>
+				</li>
+				<li title="menu_icon_page">
+					<div class="icon-box">
+						
+						<!-- menu_icon_page -->
+						<svg class="svg-menu_icon_page-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_page"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_page</h2>
+				</li>
+				<li title="menu_icon_paint">
+					<div class="icon-box">
+						
+						<!-- menu_icon_paint -->
+						<svg class="svg-menu_icon_paint-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_paint"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_paint</h2>
+				</li>
+				<li title="menu_icon_people">
+					<div class="icon-box">
+						
+						<!-- menu_icon_people -->
+						<svg class="svg-menu_icon_people-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_people"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_people</h2>
+				</li>
+				<li title="menu_icon_posts">
+					<div class="icon-box">
+						
+						<!-- menu_icon_posts -->
+						<svg class="svg-menu_icon_posts-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_posts"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_posts</h2>
+				</li>
+				<li title="menu_icon_tools">
+					<div class="icon-box">
+						
+						<!-- menu_icon_tools -->
+						<svg class="svg-menu_icon_tools-dims">
+							<use xlink:href="svg_sprite.svg#menu_icon_tools"></use>
+						</svg>
+						
+					</div>
+					<h2>menu_icon_tools</h2>
+				</li>
+			</ul>
+
+<!--
+====================================================================================================
+-->
+
+		</section>
+		<footer>
+			<p>Generated at Thu, 06 Apr 2017 18:23:21 GMT by <a href="https://github.com/jkphl/svg-sprite" target="_blank">svg-sprite</a>.</p>
+		</footer>
+	</body>
+</html>
