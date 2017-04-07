@@ -12,6 +12,8 @@ const runSequence = require('run-sequence');
 const stylint = require('gulp-stylint');
 const shell = require('gulp-shell');
 const minify = require('gulp-minify');
+const argv = require('yargs').argv;
+const fs = require('fs');
 
 
 // - Sprites Generator
@@ -70,7 +72,7 @@ gulp.task('distJS', () => {
 	    .pipe(plumber())
 	    .pipe(sourcemaps.init())
 	    .pipe(babel({
-	        presets: ['es2015']
+	        presets: ['es2015-without-strict']
 	    }))
 		.pipe(rename(function (path) {
 			path.dirname += "/dist";
@@ -82,28 +84,108 @@ gulp.task('distJS', () => {
     });
 });
 
-// - JavaScript Libs
-gulp.task('distJSLibs', function () {
-  return gulp.src([
-      './node_modules/jquery/dist/jquery.min.js',
-    ])
-    .pipe(concat('libs.js'))
-    .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(minify({
-      ext:{
-        src:'.js',
-        min:'.min.js'
-      },
-      exclude: ['tasks'],
-      ignoreFiles: ['.combo.js', '-min.js']
-    }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./libs/js'));
+gulp.task('component', function(){
+	const componentName = argv.c;
+	const dir = `./components/${componentName}`;
 
-    console.log(color('[JSLibs _dist generated]', 'YELLOW'));
+	// Variables for init.php
+	const initBase = './_templates/components/component/init.php';
+	const destInit = `${dir}/init.php`;
+
+	// Variables for the-component.php
+	const theComponentBase = './_templates/components/component/the-component.php';
+	const destTheComponent = `${dir}/the-component.php`;
+
+	// Variables for index.js
+	const jsBase = './_templates/components/component/index.js';
+	const destJs = `${dir}/index.js`;
+
+	// Variables for index.styl
+	const stylusBase = './_templates/components/component/index.styl';
+	const destStylus = `${dir}/index.styl`;
+
+
+	if (!fs.existsSync(dir)){
+
+		// Create Dir
+		fs.mkdirSync(dir);
+		fs.closeSync(fs.openSync(destInit, 'w'));
+
+		// Read init.php
+		fs.readFile(initBase, 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			if (data) {
+				var result = data.replace(/%COMPONENT_NAME%/g, componentName);
+				// Crio o Arquivo init.php
+				console.log(destInit);
+				fs.writeFile(destInit, result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					console.log("The file was saved!");
+				});
+				return result;
+			}
+		});
+
+		// Read the-component.php
+		fs.readFile(theComponentBase, 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			if (data) {
+				var result = data.replace(/%COMPONENT_NAME%/g, componentName.replace('-', '_'));
+				// Crio o Arquivo init.php
+				console.log(destTheComponent);
+				fs.writeFile(destTheComponent, result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					console.log("The file was saved!");
+				});
+				return result;
+			}
+		});
+
+		// Read index.js
+		fs.readFile(jsBase, 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			if (data) {
+				var result = data.replace(/%COMPONENT_NAME%/g, componentName);
+				// Crio o Arquivo init.php
+				console.log(destJs);
+				fs.writeFile(destJs, result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					console.log("The file was saved!");
+				});
+				return result;
+			}
+		});
+
+		// Read index.styl
+		fs.readFile(stylusBase, 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			if (data) {
+				var result = data.replace(/%COMPONENT_NAME%/g, componentName);
+				// Crio o Arquivo init.php
+				console.log(destStylus);
+				fs.writeFile(destStylus, result, 'utf8', function (err) {
+					if (err) return console.log(err);
+					console.log("The file was saved!");
+				});
+				return result;
+			}
+		});
+
+
+
+		console.log(color('[COMPONENTE CRIADO COM SUCESSO]', 'GREEN'));
+	} else {
+		console.log(color('[COMPONENTE JÁ EXISTE]', 'RED'));
+	}
 });
-
 
 /* Linters
 ====================================*/
@@ -113,5 +195,5 @@ gulp.task('stylint', shell.task([
 
 
 gulp.task('default', function(cb) {
-  runSequence('distJSLibs', ['distJS', 'distCSS', 'sprites'], cb)
+  runSequence(['distJS', 'distCSS', 'sprites'], cb)
 });

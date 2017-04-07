@@ -42,10 +42,11 @@ function component_include_dependencies( $dir_base, $dependencies )
 	{
 		// obtemos o caminho completo do arquivo da dependencia
 		$file = $dir_base . '/' . $d;
-		$componentFolder = explode("/", $dir_base);
-		end($componentFolder);
-		$key = key($componentFolder);
-		$componentFolder = $componentFolder[$key];
+		$componentFolderBase = explode("/", $dir_base);
+		end($componentFolderBase);
+		$key = key($componentFolderBase);
+		$componentFolder = $componentFolderBase[$key];
+		$libName = $componentFolderBase[$key];
 
 		// se o arquivo não existir
 		if (!file_exists($file)) {
@@ -58,17 +59,52 @@ function component_include_dependencies( $dir_base, $dependencies )
 			include($file);
 		}
 
-		if (strpos($file, '.min.js') !== false) {
-		    $componentUrl = get_template_directory_uri() . '/components/' . $componentFolder . '/' . $d;
-		    component_enqueue_files($componentFolder, $componentUrl);
-		}
+		// if (strpos($file, '.min.js') !== false) {
 
-		if (strpos($file, '.min.css') !== false) {
-		    $componentUrl = get_template_directory_uri() . '/components/' . $componentFolder . '/' . $d;
-		    component_enqueue_files($componentFolder, $componentUrl);
-		}
+		// 	if(strpos($file, '/libs/')) {
+		// 		//var_dump(explode($file));
+		// 		//echo "<h1>" . get_template_directory_uri() . '/libs/' . $libName . "</h1>";
+		// 	} else {
+		//     	$componentUrl = get_template_directory_uri() . '/components/' . $componentFolder . '/' . $d;
+		//     	echo "<h1>$componentUrl</h1>";
+		// 	}
+		    
+		//     component_enqueue_files($componentFolder, $componentUrl, 'css');
+		// }
+
+		// if (strpos($file, '.min.css') !== false) {
+		//     $componentUrl = get_template_directory_uri() . '/components/' . $componentFolder . '/' . $d;
+		//     component_enqueue_files($componentFolder, $componentUrl, 'js');
+		// }
 	}
 
+}
+
+function my_print($value) {
+	echo'<pre>';
+	var_dump($value);
+	echo'</pre>';
+}
+
+function get_component_name ($dir_base) {
+	$componentName = explode('/', $dir_base);
+	end($componentName);
+	return $componentName[key($componentName)];
+}
+
+function component_include_front_dependencies( $dir_base, $dependencies ) {
+	echo '[component_include_front_dependencies()]';
+
+	$componentName = get_component_name($dir_base);
+
+	my_print('aa');
+
+	foreach ($dependencies as $dependencie) {
+		$dependencieOrigin = $dependencie[0];
+		$dependencieUrl  = $dependencie[1];
+		$dependencieType  = $dependencie[2];
+		component_enqueue_files($dependencieOrigin, $dependencieUrl, $componentName, $dependencieType);
+	}
 }
 
 
@@ -76,15 +112,72 @@ function component_include_dependencies( $dir_base, $dependencies )
 *	@FUNCTION 'component_enqueue_files':
 *	Adiciona os arquivos necessários para o funcionamento do componente no front-end
 **/
-function component_enqueue_files($componentName, $componentUrl)
-{
-	if (!wp_script_is('component-' . $componentName . '-script', 'enqueued')) 
-	{
-		wp_enqueue_script('component-' . $componentName . '-script', $componentUrl);
-	}
+function component_enqueue_files($dependencieOrigin, $dependencieUrl, $componentName, $dependencieType) {
+	// Define o formato padrão para nome de dependencias
+	$dependencieName = sanitize_title($dependencieUrl);
 
-	if (!wp_style_is('component-' . $componentName . '-styles', 'enqueued')) 
+	switch($dependencieOrigin) {
+		case 'external':
+			// Chama os Scripts
+			fenrir_enqueue_javascripts($dependencieUrl, $dependencieName, $dependencieType);
+			fenrir_enqueue_css($dependencieUrl, $dependencieName, $dependencieType);
+			//echo '<strong>'.$dependencieType.'</strong>' . $dependencieUrl . '<br>';
+			break;
+		case 'dist':
+			// Define o nome para dependencias de distribuição
+			$dependencieName = sanitize_title($componentName . '_' . $dependencieUrl);
+			$dependencieUrl = get_template_directory_uri() . '/components/' . $componentName . '/dist/' . $dependencieUrl;
+			// Chama os Scripts
+			fenrir_enqueue_javascripts($dependencieUrl, $dependencieName, $dependencieType);
+			fenrir_enqueue_css($dependencieUrl, $dependencieName, $dependencieType);
+			//echo '<strong>'.$dependencieType.'</strong>' . $dependencieUrl . '<br>';
+			break;
+		case 'libs':
+			$dependencieUrl = get_template_directory_uri() . '/libs/' . $dependencieUrl;
+			// Chama os Scripts
+			fenrir_enqueue_javascripts($dependencieUrl, $dependencieName, $dependencieType);
+			fenrir_enqueue_css($dependencieUrl, $dependencieName, $dependencieType);
+			//echo '<strong>'.$dependencieType.'</strong>' . $dependencieUrl . '<br>';
+			break;
+		default:
+			wp_die('Componente: [' . $dependencieUrl . '], é de um tipo inválido: "' . $dependencieOrigin . '"');
+	}
+}
+
+function fenrir_enqueue_javascripts($dependencieUrl, $dependencieName, $dependencieType) {
+	if (!wp_script_is('component-' . $dependencieName . '-script', 'enqueued') && $dependencieType === 'js') 
 	{
-		wp_enqueue_style('component-' . $componentName . '-styles', $componentUrl);
+		wp_enqueue_script('component-' . $dependencieName . '-script', $dependencieUrl);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function fenrir_enqueue_css($dependencieUrl, $dependencieName, $dependencieType) {
+	if (!wp_style_is('component-' . $dependencieName . '-styles', 'enqueued') && $dependencieType === 'css') 
+	{
+		wp_enqueue_style('component-' . $dependencieName . '-styles', $dependencieUrl);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+/**
+*	@FUNCTION 'the_component': Encapsula a chamada de componentes na aplicação. Ela checa se a função do componente chamado existe, se existir exibe o componente. Caso contrário ignora a chamada.
+*	@param $component_name (string): Nome do componente a ser exibido
+*	@return (void)
+**/
+function the_component( $component_name, $args = array() )
+{
+	// obtem o nome da função do componente chamado
+	$component_function = 'the_component_' . $component_name;
+	// verifica se a função existe
+	if (function_exists($component_function)) {
+		// se existe, o componente está ativo
+		// então, executamos a função de exibição do componente
+		call_user_func($component_function, $args);
 	}
 }

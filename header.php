@@ -24,12 +24,14 @@
 <!-- SVG Icons -->
 <div style="display: none;"><?php include 'icons/sprite/svg_sprite.svg'; ?></div>
 
-<?php the_component_footer(); ?>
-<?php the_component_footer(); ?>
-<?php the_component_footer(); ?>
-<?php the_component_footer(); ?>
-<?php the_component_footer(); ?>
-<?php the_component_footer(); ?>
+<?php the_component('cardpost'); ?>
+<?php the_component('cardpost'); ?>
+<?php the_component('footer'); ?>
+<?php //the_component_footer(); ?>
+<?php //the_component_footer(); ?>
+<?php //the_component_footer(); ?>
+<?php //the_component_footer(); ?>
+<?php //the_component_footer(); ?>
 
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'wp-fenrir' ); ?></a>
